@@ -56,32 +56,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($username === '' || $password === '') {
         $error = 'Please enter your username and password.';
     } else {
-        $result = AdminAuth::login(
-            $username,
-            $password,
-            $_SERVER['REMOTE_ADDR'] ?? '',
-            $_SERVER['HTTP_USER_AGENT'] ?? ''
-        );
+        try {
+            $result = AdminAuth::authenticate(
+                $username,
+                $password,
+                $_SERVER['REMOTE_ADDR'] ?? '',
+                $_SERVER['HTTP_USER_AGENT'] ?? '',
+                $remember
+            );
 
-        if (!empty($result['success'])) {
             AdminSessionManager::store($result['session'], $result['user']);
 
             if ($remember) {
                 $sessionCfg = AdminSessionManager::getConfig();
                 RememberMeManager::createToken(
                     $result['user']['id'],
+                    $_SERVER['REMOTE_ADDR'] ?? '',
+                    $_SERVER['HTTP_USER_AGENT'] ?? '',
                     AdminSessionManager::getCookieDomain(),
                     $sessionCfg['is_https'] ?? false
                 );
             }
 
+            AdminSessionManager::saveAndClose();
+
             $redirect = $_SESSION['redirect_after_login'] ?? AUTH_DEFAULT_REDIRECT;
             unset($_SESSION['redirect_after_login']);
             header('Location: ' . $redirect);
             exit;
-        }
 
-        $error = $result['error'] ?? 'Invalid username or password.';
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
     }
 }
 ?>
