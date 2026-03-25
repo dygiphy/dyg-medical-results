@@ -1,0 +1,3 @@
+[submodule "standalone-auth-package"]
+	path = standalone-auth-package
+	url = https://github.com/dygiphy/standalone-auth-package.git

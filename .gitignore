@@ -1,0 +1,21 @@
+# Environment & credentials
+config/config.php
+.vscode/sftp.json
+
+# FTP sync tracking
+ftp_sync_hashes.db
+
+# Logs
+logs/*.log
+
+# Tools (not for production)
+tools/
+
+# OS & editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Git
+*.orig
