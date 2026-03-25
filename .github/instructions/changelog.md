@@ -5,7 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
-## [Unreleased]
+## [1.0.1] – 2026-03-25
+
+### Fixed
+- `login.php`: replaced non-existent `AdminAuth::login()` call with correct `AdminAuth::authenticate()` pattern; added `try/catch` error handling, `AdminSessionManager::saveAndClose()`, and corrected `RememberMeManager::createToken()` parameter signature
+
+### Deployed
+- Full production deployment to `https://apps.dygiphy.com.au/medical-results/`
+- Auth submodule deployed via FTP; both app and auth schemas applied
+- Wade's blood test data imported (6 sessions, ~90 results from 2020–2024)
+
+---
+
+## [1.0.0] – 2026-03-24
 
 ### Added
 - Initial application build
